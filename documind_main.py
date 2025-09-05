@@ -60,10 +60,22 @@ def create_app():
         print(f"⚠️ Warning: Could not load API routes: {e}")
         print("📝 Running in basic mode - some features may be unavailable")
         
-        # Add a basic API endpoint for testing
+        # Add basic API endpoints for testing
         @app.get("/api/test")
         async def test_endpoint():
             return {"message": "Basic API mode - full services not available"}
+        
+        @app.get("/api/health")
+        async def api_health():
+            return {"status": "basic", "message": "API running in basic mode"}
+        
+        @app.post("/api/upload")
+        async def basic_upload():
+            return {"message": "Upload not available in basic mode"}
+        
+        @app.post("/api/query")
+        async def basic_query():
+            return {"message": "Query not available in basic mode"}
     
     # Mount frontend
     try:
