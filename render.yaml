@@ -6,8 +6,8 @@ services:
     plan: starter
     buildCommand: |
       pip install --upgrade pip
-      pip install -r requirements.txt
-      pip install pytesseract pillow
+      pip uninstall pinecone-client -y || true
+      pip install -r requirements-clean.txt
     startCommand: python simple_main.py
     healthCheckPath: /health
     envVars:
