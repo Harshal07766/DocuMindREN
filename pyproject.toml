@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "documind-ai"
+version = "1.0.0"
+description = "DocuMind AI - Intelligent Document Processing and Chat System"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "DocuMind Team", email = "team@documind.ai"}
+]
+maintainers = [
+    {name = "DocuMind Team", email = "team@documind.ai"}
+]
+keywords = ["ai", "document-processing", "chat", "vector-search", "embeddings"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+]
+
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "python-multipart>=0.0.6",
+    "python-dotenv>=1.0.0",
+    "openai>=1.40.0",
+    "google-generativeai>=0.3.0",
+    "sentence-transformers>=2.2.2",
+    "pinecone-client>=2.2.4",
+    "langchain>=0.1.0",
+    "langchain-core>=0.1.0",
+    "langchain-openai>=0.1.0",
+    "langchain-text-splitters>=0.2.0",
+    "httpx>=0.25.0",
+    "requests>=2.31.0",
+    "numpy>=1.24.3",
+    "python-docx>=1.1.0",
+    "Pillow>=10.1.0",
+    "rank-bm25>=0.2.2",
+    "cohere>=4.37",
+    "tldextract>=5.1.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "gunicorn",
+    "transformers>=4.35.0",
+    "torch>=2.1.0",
+    "weaviate-client>=3.25.3",
+    "qdrant-client>=1.6.0",
+    "supabase>=2.0.0",
+    "pgvector>=0.2.0",
+    "langchain-pinecone>=0.0.3",
+    "langchain-cohere>=0.1.0",
+    "langchain-astradb>=0.1.0",
+    "pandas>=2.1.0",
+    "PyMuPDF>=1.23.0",
+    "python-pptx>=0.6.23",
+    "openpyxl>=3.1.2",
+    "pytesseract>=0.3.10",
+    "SQLAlchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "asyncpg>=0.29.0",
+    "redis[hiredis]>=5.0.0",
+    "greenlet>=3.0.0",
+    "astrapy>=0.7.0",
+    "mail-parser>=3.15.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/documind/documind-ai"
+Documentation = "https://documind-ai.readthedocs.io"
+Repository = "https://github.com/documind/documind-ai.git"
+Issues = "https://github.com/documind/documind-ai/issues"
+
+[project.scripts]
+documind = "documind_main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["services*", "api*"]
+exclude = ["tests*", "frontend*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.yaml", "*.yml", "*.json"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["services", "api"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

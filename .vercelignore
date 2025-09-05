@@ -1,0 +1,41 @@
+# Ignore heavy dependencies for Vercel serverless deployment
+requirements.txt
+requirements-serverless.txt
+pyproject.toml
+services/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Ignore Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Ignore deployment configs for other platforms
+railway.json
+render.yaml
+deploy.sh
+
+# Ignore test files
+test_*
+*_test.py
