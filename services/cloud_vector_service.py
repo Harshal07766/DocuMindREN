@@ -62,20 +62,29 @@ class CloudVectorDB:
             self.client = pc
             
             # Create or get collection
-            if COLLECTION_NAME not in [index.name for index in pc.list_indexes()]:
-                print(f"Creating Pinecone index: {COLLECTION_NAME}")
-                pc.create_index(
-                    name=COLLECTION_NAME,
-                    dimension=EMBEDDING_DIMENSION,
-                    metric="cosine",
-                    spec={"serverless": {"cloud": "aws", "region": "us-east-1"}}
-                )
-            
-            self.collection = pc.Index(COLLECTION_NAME)
-            print(f"✅ Pinecone initialized with index: {COLLECTION_NAME}")
+            try:
+                # Check if index exists
+                existing_indexes = pc.list_indexes()
+                index_names = [index.name for index in existing_indexes]
+                
+                if COLLECTION_NAME not in index_names:
+                    print(f"Creating Pinecone index: {COLLECTION_NAME}")
+                    pc.create_index(
+                        name=COLLECTION_NAME,
+                        dimension=EMBEDDING_DIMENSION,
+                        metric="cosine",
+                        spec={"serverless": {"cloud": "aws", "region": "us-east-1"}}
+                    )
+                
+                self.collection = pc.Index(COLLECTION_NAME)
+                print(f"✅ Pinecone initialized with index: {COLLECTION_NAME}")
+            except Exception as e:
+                print(f"⚠️ Warning: Could not initialize Pinecone index: {e}")
+                print("📝 Running without vector database - some features may be unavailable")
+                self.collection = None
             
         except ImportError:
-            raise ImportError("pinecone-client not installed. Run: pip install pinecone-client")
+            raise ImportError("pinecone not installed. Run: pip install pinecone")
         except Exception as e:
             print(f"❌ Pinecone initialization failed: {e}")
             raise
