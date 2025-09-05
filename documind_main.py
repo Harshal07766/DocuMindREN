@@ -53,6 +53,15 @@ def create_app():
     
     # Try to include API routes, but don't fail if services aren't available
     try:
+        # Check for Pinecone package issues first
+        try:
+            import pinecone
+            print("✅ Pinecone package available")
+        except ImportError as pinecone_error:
+            if "pinecone-client" in str(pinecone_error):
+                print("⚠️ Pinecone package issue detected - using basic mode")
+                raise pinecone_error
+        
         from services.routes import router as api_router
         app.include_router(api_router)
         print("✅ API routes loaded successfully")
